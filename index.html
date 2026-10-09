@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Student Oral Health Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: one column; mono uppercase labels + heavy expanded display type, pill nav like an architecture studio site */
+:root{
+  --bg:#ffffff; --fg:#111314; --muted:#5f6669; --line:#e3e6e7; --pill:#f0f2f2; --pill-hover:#e4e8e8;
+  --accent:#0b8a8f; --bar:#b9cfd1; --dot:#2fbf71;
+  --display:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1112; --fg:#eef1f1; --muted:#9aa3a6; --line:#252b2d; --pill:#1b2022; --pill-hover:#252c2e;
+  --accent:#4fd1d6; --bar:#33545a; --dot:#43d685; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1112; --fg:#eef1f1; --muted:#9aa3a6; --line:#252b2d; --pill:#1b2022; --pill-hover:#252c2e;
+  --accent:#4fd1d6; --bar:#33545a; --dot:#43d685; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-stretch:100%;font-size:17px;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding-inline:20px;padding-block:0 56px}
+.mono,.eyebrow,.cap,.val,nav a,th,.facts span,header.top .by,.finding .tag,footer{font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+header.top{padding-block:40px 28px}
+header.top .kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:0 0 18px}
+header.top .kicker i{width:8px;height:8px;border-radius:50%;background:var(--dot);display:inline-block}
+header.top h1{font-family:var(--display);font-weight:850;font-stretch:118%;font-size:clamp(2.1rem,6vw,3.6rem);line-height:1.02;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+header.top .by{font-size:.78rem;color:var(--muted);margin:0}
+nav{display:flex;flex-wrap:wrap;gap:8px;padding-block:12px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:2;border-bottom:1px solid var(--line)}
+nav a{font-size:.72rem;font-weight:500;color:var(--fg);text-decoration:none;background:var(--pill);padding:9px 14px;border-radius:8px;transition:background .15s}
+nav a:hover{background:var(--pill-hover)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{padding-block:44px 8px;scroll-margin-top:72px}
+.eyebrow{font-size:.74rem;color:var(--accent);margin:0 0 8px;font-weight:500}
+h2{font-family:var(--display);font-weight:800;font-stretch:112%;font-size:clamp(1.6rem,3.6vw,2.2rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:650;font-stretch:100%;font-size:1.05rem;margin:30px 0 8px}
+p,li{max-width:66ch}
+em{font-style:normal;font-weight:650}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.95rem}
+.tablebox{overflow-x:auto;margin-block:12px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:bottom}
+th{font-size:.68rem;font-weight:500;color:var(--muted)}
+td.n{text-align:right;font-family:var(--mono)}
+.chart{margin:10px 0 4px;display:grid;gap:7px}
+.row{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:12px;align-items:center}
+.row .lab{font-size:.95rem;min-width:0}
+.track{display:flex;align-items:center;gap:10px;min-width:0}
+.bwrap{flex:1;min-width:0}
+.bar{height:14px;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+.bar.hi{background:var(--accent)}
+.val{width:84px;flex:none;text-align:right;font-size:.76rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.cap{font-size:.7rem;color:var(--muted);margin:8px 0 0;line-height:1.5}
+.finding{background:var(--pill);padding:18px 20px;margin:12px 0;border-radius:10px}
+.finding .tag{display:block;font-size:.7rem;color:var(--accent);margin-bottom:6px}
+.finding b{display:block;font-family:var(--display);font-weight:750;font-stretch:108%;font-size:1.15rem;line-height:1.25;margin-bottom:6px}
+.facts{display:flex;flex-wrap:wrap;gap:14px 44px;margin:22px 0;padding:0;list-style:none}
+.facts li{min-width:0;display:flex;flex-direction:column-reverse}
+.facts b{font-family:var(--display);font-weight:850;font-stretch:118%;font-size:2.4rem;line-height:1;letter-spacing:-.02em}
+.facts span{font-size:.7rem;color:var(--muted);margin-top:6px}
+ul li::marker,ol li::marker{color:var(--accent)}
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;font-size:.68rem;color:var(--muted);line-height:1.7}
+.formula{font-family:var(--mono);font-size:.8rem;background:var(--pill);padding:10px 14px;border-radius:8px;overflow-x:auto;white-space:nowrap;max-width:100%}
+.ci{display:grid;gap:9px;margin:12px 0 4px}
+.ci .row{grid-template-columns:minmax(120px,32%) 1fr}
+.ci .rng{position:relative;height:16px;margin-right:56px}
+.ci .rng .axis{position:absolute;inset:7px 0 auto 0;height:1px;background:var(--line)}
+.ci .rng .seg{position:absolute;top:5px;height:5px;background:var(--bar);border-radius:3px}
+.ci .rng .dot{position:absolute;top:2px;width:11px;height:11px;margin-left:-5.5px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.ci .rng .num{position:absolute;right:-56px;top:-2px;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.ci .scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-right:56px}
+.cols{display:flex;align-items:flex-end;gap:6px;height:190px;margin:14px 0 4px;border-bottom:1px solid var(--line)}
+.cols .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.cols .c .v{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-bottom:4px}
+.cols .c .b{width:100%;max-width:56px;background:var(--bar);border-radius:4px 4px 0 0;min-height:2px}
+.cols .c .b.hi{background:var(--accent)}
+.colx{display:flex;gap:6px;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.colx span{flex:1;text-align:center;min-width:0}
+.gapgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-block:8px}
+.gapgrid td.hl{color:var(--accent);font-weight:700}
+.gapgrid caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-bottom:6px}
+.sig{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:6px;background:var(--pill);white-space:nowrap}
+.sig.yes{background:var(--accent);color:var(--bg)}
+@media (max-width:520px){.ci .row{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){nav a{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker"><i></i>Survey project · n = 101 · 2026</p>
+  <h1>Brushing Up: How Students Really Take Care of Their Teeth</h1>
+  <p class="by">Jiaying Zheng · Senior, International Program · Guangzhou Foreign Language School · October 2026</p>
+</header>
+
+<nav aria-label="Sections">
+  <a href="#about">About</a><a href="#why">Why</a><a href="#method">Method</a>
+  <a href="#habits">Habits</a><a href="#sugar">Sugar</a><a href="#dentist">Dentist</a>
+  <a href="#learning">Learning</a><a href="#analysis">Analysis</a><a href="#findings">Findings</a><a href="#limits">Limitations</a><a href="#next">Next steps</a>
+</nav>
+
+<section id="about">
+  <p class="eyebrow">00 / About</p>
+  <h2>About me</h2>
+  <p>Hi, I'm Jiaying, a senior in the International Program at Guangzhou Foreign Language School. I'm taking A-Level Mathematics, Further Mathematics, Chemistry, and Physics.</p>
+  <p>I'm drawn to projects where I gather my own data instead of just reading about a topic. In 10th grade I took a project-based research course, and in 11th grade I completed an Extended Project Qualification (EPQ). This survey is my latest independent project, and this site documents the data and what I learned from it.</p>
+</section>
+
+<section id="why">
+  <p class="eyebrow">01 / Background</p>
+  <h2>Why this project: putting math to work on a real problem</h2>
+  <p>What I love about math is how it turns a vague worry into a question you can actually answer. In A-Level Math and Further Math, I learned tools like hypothesis testing, probability models, and regression, but I almost always used them on textbook data. I wanted to see what they could do when I pointed them at a real-world problem.</p>
+  <p>I picked children's oral health because it's a problem everyone assumes they already understand. Tooth decay is one of the most common chronic conditions in children, and most of it is preventable with simple habits. So if people know what to do, why do so many kids still get cavities? Math can help answer that, by measuring the gap between what people know and what they do, and by testing which factors really matter.</p>
+  <p>My project asks three questions:</p>
+  <ol>
+    <li>Do students brush, floss, and see the dentist the way they <em>know</em> they should?</li>
+    <li>Which factors are actually linked to good habits, and which only seem to be?</li>
+    <li>What kind of oral health education would students actually pay attention to?</li>
+  </ol>
+</section>
+
+<section id="method">
+  <p class="eyebrow">02 / Method</p>
+  <h2>Method</h2>
+  <p>I designed a 29-question online survey in Chinese covering six areas: background, daily habits, sugar intake, dental visits, oral health knowledge, and learning preferences. I distributed it through friends, classmates, and family group chats from <b>September 11 to 28, 2026</b>.</p>
+  <ul class="facts">
+    <li><span>Responses</span><b id="f-n"></b></li>
+    <li><span>Median completion time</span><b id="f-med"></b></li>
+    <li><span>From Guangdong or Hubei</span><b id="f-prov"></b></li>
+  </ul>
+  <h3>Who responded</h3>
+  <div class="chart" id="c-grade"></div>
+  <p class="cap">Q1: What grade are you in? (n = 101). No 11th graders responded.</p>
+  <h3>School location</h3>
+  <div class="chart" id="c-area"></div>
+  <p class="cap">Q2: Which best describes where your school is located? (n = 101)</p>
+  <p>I cleaned and analyzed the data in Python (pandas and SciPy). Percentages are out of all 101 respondents unless noted otherwise. For select-all-that-apply questions, percentages add up to more than 100%. For age comparisons, I grouped grades 1–6 as elementary school, grades 7–9 as middle school, and grades 10–12 as high school.</p>
+</section>
+
+<section id="habits">
+  <p class="eyebrow">03 / Results</p>
+  <h2>Daily habits</h2>
+  <h3>How many times a day do you brush your teeth?</h3>
+  <div class="chart" id="c-brushTimes"></div>
+  <h3>Do you brush before bed?</h3>
+  <div class="chart" id="c-bedtime"></div>
+  <h3>How long do you usually brush?</h3>
+  <div class="chart" id="c-duration"></div>
+  <p class="cap">Dentists generally recommend brushing for two minutes.</p>
+  <h3>Do you know whether your toothpaste contains fluoride?</h3>
+  <div class="chart" id="c-fluoride"></div>
+  <h3>Do you use floss or interdental brushes?</h3>
+  <div class="chart" id="c-floss"></div>
+  <p>Most respondents brush twice a day, but the details fall short. About one in six brush for under a minute, nearly half don't know whether their toothpaste contains fluoride, and only about one in five floss often.</p>
+</section>
+
+<section id="sugar">
+  <p class="eyebrow">04 / Results</p>
+  <h2>Sugar</h2>
+  <h3>How often do you have sugary drinks each week?</h3>
+  <div class="chart" id="c-drinks"></div>
+  <h3>How often do you eat candy, cake, chocolate, or other sweets each week?</h3>
+  <div class="chart" id="c-sweets"></div>
+  <h3>Do you eat or drink anything sweet after brushing at night?</h3>
+  <div class="chart" id="c-afterBrush"></div>
+  <p>Snacking after the bedtime brush undoes part of its benefit. In this sample, 28 people do it often or sometimes.</p>
+</section>
+
+<section id="dentist">
+  <p class="eyebrow">05 / Results</p>
+  <h2>Going to the dentist</h2>
+  <h3>When do you usually go to the dentist?</h3>
+  <div class="chart" id="c-visitWhen"></div>
+  <h3>Have you ever had a toothache, cavities, or bleeding gums?</h3>
+  <div class="chart" id="c-problems"></div>
+  <h3>Are you afraid of going to the dentist?</h3>
+  <div class="chart" id="c-fear"></div>
+  <h3>If you don't go to the dentist regularly, why not? (Select all that apply)</h3>
+  <div class="chart" id="c-reasons"></div>
+  <p>This was the clearest pattern in the survey. The most common answer is to go only when something hurts, and the top reason for skipping check-ups is “my teeth don't hurt, so I don't need to.” Far fewer people cited fear or cost.</p>
+</section>
+
+<section id="knowledge">
+  <p class="eyebrow">06 / Results</p>
+  <h2>What people know</h2>
+  <div class="chart" id="c-know"></div>
+  <p class="cap">Percentage of respondents who gave the correct or most positive answer to each knowledge question (Q19–Q23).</p>
+  <h3>Have you ever been taught about oral health?</h3>
+  <div class="chart" id="c-learned"></div>
+</section>
+
+<section id="learning">
+  <p class="eyebrow">07 / Results</p>
+  <h2>How people want to learn</h2>
+  <h3>How do you prefer to learn about oral health? (Select all that apply)</h3>
+  <div class="chart" id="c-formats"></div>
+  <h3>Would you take a short, fun oral health class at school?</h3>
+  <div class="chart" id="c-course"></div>
+  <h3>Would you use a simple website or AI tool that answers questions like “How do I take care of my teeth?”</h3>
+  <div class="chart" id="c-tool"></div>
+  <h3>What would you most like to learn about?</h3>
+  <div class="chart" id="c-topics"></div>
+  <h3>Open-ended: What would help young kids understand best?</h3>
+  <div class="chart" id="c-open"></div>
+  <p class="cap">Q29 was open-ended. I read all 100 responses and coded which formats each one mentioned, so a single response can count toward more than one category.</p>
+</section>
+
+<section id="analysis">
+  <p class="eyebrow">08 / Deeper analysis</p>
+  <h2>Beyond the percentages</h2>
+  <p>Percentages describe the sample, but they can't tell me how confident to be or whether two things are genuinely related. In this section I use statistical methods to test the patterns above.</p>
+
+  <h3>A. How precise are these numbers?</h3>
+  <p>With only 101 respondents, every percentage comes with uncertainty. I calculated 95% confidence intervals using the Wilson score method, which performs better than the standard textbook formula when a proportion is close to 0% or 100%.</p>
+  <p class="formula">p̃ = (p̂ + z²/2n) / (1 + z²/n), &nbsp; margin = z·√(p̂(1−p̂)/n + z²/4n²) / (1 + z²/n), &nbsp; z = 1.96</p>
+  <div class="ci" id="c-ci"></div>
+  <p class="cap">Dot = sample percentage; line = 95% confidence interval (n = 101).</p>
+  <p>The intervals are wide, roughly ±10 percentage points, but some conclusions hold up anyway. Even at the upper end of its interval, the share of people getting regular check-ups is still under half (45%).</p>
+
+  <h3>B. Building a habit score and a knowledge score</h3>
+  <p>To compare respondents on a single number, I built two scores. The <b>habit score (0–8)</b> awards one point for each healthy habit: brushing at least twice a day, brushing every night, brushing for at least two minutes, using fluoride toothpaste, flossing at least sometimes, replacing the toothbrush every three months or sooner, not eating after the bedtime brush, and getting regular check-ups. The <b>health facts score (0–4)</b> awards one point for each correct answer on Q19–Q22.</p>
+  <div class="cols" id="c-hist"></div>
+  <p class="cap">Distribution of habit scores (n = 101). Mean <span id="hsMean"></span>, standard deviation <span id="hsSD"></span>.</p>
+  <p>Hardly anyone gets a perfect score (<span id="h8"></span> people), and the most common score is 6. Cronbach's alpha for the habit items is <span id="alphaH"></span>, which means the eight habits are only loosely related. That makes sense: brushing every day and going to the dentist are very different kinds of behavior.</p>
+
+  <h3>C. Does knowing more mean doing more?</h3>
+  <div class="cols" id="c-kh"></div>
+  <p class="cap">Mean daily-habit score (0–7, excluding check-ups) at each health facts score. The number under each bar is the group size.</p>
+  <p>For daily habits, yes. The Spearman rank correlation between the two scores is <b>ρ = <span id="rho"></span></b> (p &lt; 0.001), a moderate positive relationship. I chose Spearman over Pearson because both scores are small whole numbers rather than continuous measurements. Still, correlation doesn't prove that knowledge causes better habits.</p>
+
+  <h3>D. The gap, person by person</h3>
+  <p>Totals can hide who actually falls into the gap. These tables compare each person's beliefs with their own behavior.</p>
+  <div class="gapgrid">
+    <div class="tablebox"><table id="g-checkup"></table></div>
+    <div class="tablebox"><table id="g-twice"></table></div>
+  </div>
+  <p><b><span id="gapN"></span> of the <span id="vi"></span> people</b> who say check-ups are very important still don't get them. That's the clearest gap between knowing and doing in my data.</p>
+
+  <h3>E. Testing relationships</h3>
+  <p>I used chi-square tests of independence to check whether pairs of answers are related, and Cramér's V to measure the strength of each relationship (0 = none, 1 = perfect).</p>
+  <p class="formula">χ² = Σ (O − E)² / E, &nbsp; V = √(χ² / (n · (k − 1)))</p>
+  <div class="tablebox"><table id="t-tests">
+    <thead><tr><th>Relationship tested</th><th>χ²</th><th>df</th><th>p</th><th>V</th><th>Result</th></tr></thead><tbody></tbody>
+  </table></div>
+  <p class="cap">Since I ran seven tests, I used a Bonferroni-corrected threshold of 0.05 / 7 ≈ 0.007 to guard against false positives from multiple testing. The two school-level tests have some expected counts below 5, so their p-values are approximate.</p>
+  <p>Only one relationship clears that bar: people who believe check-ups are very important are much more likely to actually go. Several relationships I expected didn't show up. Sugary drinks weren't linked to reported dental problems, possibly because damage takes years to appear and people don't recall it accurately. Age group made no clear difference either (Kruskal–Wallis test on habit scores, p = <span id="kw"></span>).</p>
+
+  <h3>F. What predicts regular check-ups? A logistic regression</h3>
+  <p>A chi-square test looks at one factor at a time. To weigh several factors at once, I fit a logistic regression, which models the log-odds of getting regular check-ups as a linear combination of the predictors.</p>
+  <p class="formula">log( p / (1 − p) ) = β₀ + β₁·facts + β₂·believes + β₃·afraid + β₄·self-motivated</p>
+  <div class="tablebox"><table id="t-logit">
+    <thead><tr><th>Predictor</th><th>Odds ratio</th><th>95% CI</th><th>p</th></tr></thead><tbody></tbody>
+  </table></div>
+  <p class="cap">n = <span id="ln"></span> (one respondent who has never been to a dentist was excluded); <span id="lev"></span> get regular check-ups. Likelihood-ratio χ² = <span id="lr"></span>, p &lt; 0.001; McFadden pseudo-R² = <span id="r2"></span>. Fit using Newton–Raphson (IRLS).</p>
+  <p>This was the most striking result. <b>Knowing health facts doesn't predict going to the dentist</b> (odds ratio ≈ 1). What matters is whether someone believes check-ups are very important: those respondents have about <span id="orv"></span> times the odds of going regularly. The confidence interval is very wide because the sample is small, so the exact figure isn't reliable, but the direction is clear. Fear of the dentist isn't significant once belief is accounted for.</p>
+  <p>One caveat: this is a cross-sectional survey, a single snapshot in time. People who already go regularly may have <em>learned</em> from their dentist that check-ups matter, so the causation could run both ways.</p>
+</section>
+
+<section id="findings">
+  <p class="eyebrow">09 / Findings</p>
+  <h2>Key findings</h2>
+  <div class="finding" id="k1"></div>
+  <div class="finding" id="k2"></div>
+  <div class="finding" id="k3"></div>
+  <div class="finding" id="k4"></div>
+  <h3>By age group</h3>
+  <div class="tablebox"><table id="t-groups">
+    <thead><tr><th>Group</th><th>n</th><th>Brush 2+ times a day</th><th>Brush every night</th><th>Brush under 1 min</th><th>Snack after bedtime brush</th><th>Regular check-ups</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="cap">“Snack after bedtime brush” counts those who answered often or sometimes. “Regular check-ups” means every 6 or 12 months. Some groups are small, so treat these differences as suggestive only.</p>
+</section>
+
+<section id="limits">
+  <p class="eyebrow">10 / Limitations</p>
+  <h2>Limitations</h2>
+  <ul>
+    <li><b>Not a random sample.</b> I distributed the survey through my personal network, so the sample skews toward big cities, Guangdong and Hubei provinces, and high school seniors (36 of 101). The results describe this group, not students across China.</li>
+    <li><b>Small subgroups.</b> Only 14 middle schoolers responded, so I don't draw firm conclusions about that group.</li>
+    <li><b>Self-reported data.</b> People may overstate how long or how often they brush. Younger children likely answered with a parent's help.</li>
+    <li><b>A flaw in question design.</b> Q18 asked, “If you don't go to the dentist regularly, why not?” but it was shown to everyone. 36 people reported regular check-ups in Q15, yet only 19 chose “I already go regularly” in Q18. Next time I'd use skip logic so only people without regular check-ups see Q18.</li>
+    <li><b>Limits of the scores and tests.</b> The habit score has only moderate internal consistency (Cronbach's α = 0.58), so it's a rough summary. The regression has just 36 positive cases, which is why its confidence intervals are so wide. A larger sample would make these estimates much more precise.</li>
+    <li><b>Correlation, not causation.</b> Everything comes from a single cross-sectional survey, so I can identify associations but not prove cause and effect.</li>
+    <li><b>Possibly rushed responses.</b> <span id="fastN"></span> people finished in under 90 seconds, and one open-ended answer was off-topic. I kept all responses because their multiple-choice answers looked consistent, but this may add some noise.</li>
+  </ul>
+</section>
+
+<section id="next">
+  <p class="eyebrow">11 / Next steps</p>
+  <h2>Next step: an AR brushing coach</h2>
+  <p>The survey points to two problems a lesson alone can't fix: people don't brush long enough or thoroughly enough, and nobody can see their own brushing to check. So my next step is to design an <b>AR brushing coach</b> for elementary school kids and evaluate it with the same statistical approach I used here.</p>
+  <h3>How it would work</h3>
+  <ul>
+    <li><b>Real-time tracking.</b> A phone or tablet camera follows the position of the toothbrush and mouth while the child brushes. The mouth is divided into zones (for example, upper-left outer surfaces or lower-right inner surfaces), and the app logs how many seconds each zone gets.</li>
+    <li><b>AR feedback.</b> An animated model of the teeth is overlaid on the screen. Each zone turns clean once it has been brushed long enough, while a two-minute timer counts down. The design is built around animation, the format respondents preferred most.</li>
+    <li><b>Check-up reminders.</b> Short animations explain why to see a dentist even when nothing hurts, targeting the belief my regression identified as the key factor.</li>
+    <li><b>Reports for parents.</b> A weekly summary shows brushing time, coverage by zone, and missed nights.</li>
+  </ul>
+  <h3>How I would test it</h3>
+  <ul>
+    <li>Recruit a group of elementary school students and track their habit scores and brushing time for two weeks <em>before</em> they use the app, then for two weeks <em>with</em> it.</li>
+    <li>Compare before and after with a paired test (Wilcoxon signed-rank). Because the app logs brushing time directly, I won't have to rely only on self-reports, one of the main limitations of this survey.</li>
+    <li>Run a power analysis beforehand to determine how many children I need to detect a meaningful change.</li>
+  </ul>
+  <p>The first version will be a simple prototype built on existing open-source hand- and face-tracking tools. A working prototype is enough for the real question: does real-time feedback actually change how kids brush?</p>
+</section>
+
+<footer class="small muted">
+  <p>Data: 101 anonymous responses to my online survey, collected September 11–28, 2026. Analysis in Python (pandas, SciPy); charts and site built with HTML, CSS, and JavaScript.</p>
+</footer>
+</div>
+
+<script>
+const D = {"grade": [["Grades 1–3", 17], ["Grades 4–6", 13], ["Grades 7–9", 14], ["10th grade", 6], ["12th grade", 36], ["Other / not in school", 15]], "area": [["Downtown in a major city", 50], ["Other urban area", 27], ["County town", 12], ["Small town", 9], ["Village or rural area", 1], ["Not sure", 2]], "brushTimes": [["Never", 2], ["Once", 17], ["Twice", 72], ["3 or more times", 10]], "bedtime": [["Every night", 69], ["Often", 15], ["Sometimes", 13], ["Rarely or never", 4]], "duration": [["Under 1 min", 17], ["1–2 min", 37], ["2–3 min", 30], ["Over 3 min", 13], ["Not sure", 4]], "fluoride": [["Yes, it contains fluoride", 47], ["Yes, it doesn't", 10], ["Not sure", 44]], "floss": [["Often", 22], ["Sometimes", 32], ["Rarely", 32], ["Never", 14], ["Don't know what it is", 1]], "drinks": [["Almost never", 17], ["1–2 times", 52], ["3–5 times", 24], ["6+ times", 8]], "sweets": [["Almost never", 17], ["1–2 times", 57], ["3–5 times", 24], ["6+ times", 3]], "afterBrush": [["Often", 9], ["Sometimes", 19], ["Rarely", 28], ["Never", 42], ["Don't brush at night", 3]], "visitWhen": [["Check-up about every 6 months", 16], ["Check-up about once a year", 20], ["Only when something hurts", 46], ["Never go on my own", 10], ["Not sure", 9]], "problems": [["Often", 10], ["Sometimes", 35], ["Rarely", 35], ["Never", 21]], "fear": [["Very afraid", 16], ["A little afraid", 38], ["Not afraid", 46], ["Never been, so not sure", 1]], "reasons": [["Didn't know regular check-ups were needed", 25], ["My teeth don't hurt, so no need", 48], ["Afraid of the dentist", 17], ["Too expensive", 17], ["The dentist is too far away", 5], ["Parents don't have time to take me", 9], ["I already go regularly", 19], ["Other", 9]], "know": [["Good habits can prevent cavities", 90], ["Sugary drinks raise the risk of cavities", 87], ["Brushing twice a day is ideal", 83], ["Knows what floss is for", 56], ["Regular check-ups are very important", 52]], "learned": [["Many times", 45], ["Once", 28], ["Never", 17], ["Don't remember", 11]], "course": [["Definitely", 29], ["Probably", 43], ["Indifferent", 24], ["Probably not", 5]], "tool": [["Yes", 47], ["Maybe", 39], ["Probably not", 8], ["Not sure", 7]], "formats": [["Animated videos", 55], ["Teacher-led lessons", 41], ["Games or quizzes", 28], ["AR / VR models", 22], ["AI Q&A", 16], ["Pamphlets or posters", 15], ["Activities with classmates", 15], ["Not interested", 11]], "topics": [["How to brush properly", 36], ["Crooked teeth", 15], ["Why cavities happen", 14], ["How sugary drinks affect teeth", 12], ["What to do about a toothache", 11], ["Other", 7], ["Does the dentist hurt?", 4], ["Why floss", 2]], "open": [["Animation", 53], ["Games", 24], ["Videos", 18], ["AI Q&A", 9], ["Teacher-led lessons", 9], ["Pictures, demos, or interactive tools", 5]], "openN": 100, "X": {"know2x": 83, "know2x_once": 11, "veryImp": 52, "veryImp_reg": 32, "regular": 36, "veryAfraid": [16, 6], "littleAfraid": [38, 9], "notAfraid": [46, 21], "groups": [{"g": "Primary", "n": 30, "twice": 21, "bed": 19, "short": 8, "eatAfter": 10, "regular": 12}, {"g": "Junior high", "n": 14, "twice": 10, "bed": 8, "short": 1, "eatAfter": 2, "regular": 4}, {"g": "Senior high", "n": 42, "twice": 38, "bed": 30, "short": 6, "eatAfter": 13, "regular": 13}, {"g": "Other", "n": 15, "twice": 13, "bed": 12, "short": 2, "eatAfter": 3, "regular": 7}], "fast": 7, "medianSec": 173, "prov": {"广东省": 59, "湖北省": 28, "华盛顿州": 5, "浙江省": 3, "四川省": 2, "安徽省": 2, "山东省": 1, "内蒙古自治区": 1}}, "N": 101};
+const S = {"ci": [["Brush 2+ times a day", 82, 81.2, 72.5, 87.6], ["Brush every night", 69, 68.3, 58.7, 76.6], ["Brush 2+ minutes", 43, 42.6, 33.4, 52.3], ["Know their toothpaste has fluoride", 47, 46.5, 37.1, 56.2], ["Floss often or sometimes", 54, 53.5, 43.8, 62.9], ["Regular check-ups", 36, 35.6, 27.0, 45.4], ["Go only when something hurts", 46, 45.5, 36.2, 55.2]], "habitDist": [0, 7, 8, 9, 18, 18, 22, 15, 4], "knowDist": [3, 1, 10, 29, 30, 28], "hsMean": 4.76, "hsSD": 1.87, "ksMean": 3.64, "habitItems": [["brush2", 82], ["bednight", 69], ["dur2", 43], ["fluor", 47], ["floss", 54], ["replace", 80], ["noAfter", 70], ["checkup", 36]], "spear_k_h": [0.489, 0.0], "hsByK": [[0, 3, 1.33], [1, 1, 4.0], [2, 10, 3.6], [3, 29, 4.14], [4, 30, 5.0], [5, 28, 5.96]], "spear_sug_h": [-0.052, 0.603], "gap": {"twice": [[8, 10], [11, 72]], "checkup": [[45, 4], [20, 32]], "floss": [[29, 16], [18, 38]]}, "tests": [{"name": "Fear of the dentist × regular check-ups", "chi2": 4.38, "df": 2, "p": 0.1121, "V": 0.21, "lowExp": 0.0, "fisher": null, "table": [[29, 9], [25, 21], [10, 6]], "rows": ["A little", "Not afraid", "Very afraid"], "cols": ["0", "1"]}, {"name": "Believes check-ups are very important × regular check-ups", "chi2": 31.33, "df": 1, "p": 0.0, "V": 0.56, "lowExp": 0.0, "fisher": 0.0, "table": [[45, 4], [20, 32]], "rows": ["0", "1"], "cols": ["0", "1"]}, {"name": "School level × regular check-ups", "chi2": 1.75, "df": 3, "p": 0.6257, "V": 0.13, "lowExp": 0.12, "fisher": null, "table": [[10, 4], [8, 7], [18, 12], [29, 13]], "rows": ["Junior", "Other", "Primary", "Senior"], "cols": ["0", "1"]}, {"name": "Sugary drinks 3+ times a week × dental problems", "chi2": 0.01, "df": 1, "p": 0.9118, "V": 0.01, "lowExp": 0.0, "fisher": 1.0, "table": [[38, 31], [18, 14]], "rows": ["0", "1"], "cols": ["0", "1"]}, {"name": "Regular check-ups × dental problems", "chi2": 2.85, "df": 1, "p": 0.0913, "V": 0.17, "lowExp": 0.0, "fisher": 0.1, "table": [[32, 33], [24, 12]], "rows": ["0", "1"], "cols": ["0", "1"]}, {"name": "School level × brushing every night", "chi2": 2.29, "df": 3, "p": 0.5153, "V": 0.15, "lowExp": 0.25, "fisher": null, "table": [[6, 8], [3, 12], [11, 19], [12, 30]], "rows": ["Junior", "Other", "Primary", "Senior"], "cols": ["0", "1"]}, {"name": "Taught about oral health many times × flossing", "chi2": 1.39, "df": 1, "p": 0.2379, "V": 0.12, "lowExp": 0.0, "fisher": 0.3158, "table": [[29, 27], [18, 27]], "rows": ["0", "1"], "cols": ["0", "1"]}], "kw": [4.46, 0.2163], "hsByGroup": [["Primary", 30, 4.4], ["Junior", 14, 4.93], ["Senior", 42, 4.71], ["Other", 15, 5.47]], "selfrem": [57, 5.09, 44, 4.34, 0.0399], "logit": [["Health facts score (0–4, per point)", 0.98, 0.54, 1.79, 0.955], ["Believes check-ups are very important", 17.97, 5.4, 59.79, 0.0], ["At least a little afraid of the dentist", 0.45, 0.15, 1.34, 0.152], ["Brushes without being reminded", 0.58, 0.2, 1.71, 0.326]], "logitN": 100, "logitEvents": 36, "pseudoR2": 0.293, "LR": [38.29, 0.0], "alphaH": 0.58, "alphaK": 0.48, "spear_facts_h7": [0.465, 0.0], "hsByKf": [[0, 3, 1.33], [1, 4, 4.5], [2, 12, 3.08], [3, 40, 4.15], [4, 42, 5.24]]};
+const N = D.N;
+const pct = (v, n=N) => Math.round(v / n * 100) + "%";
+function chart(id, rows, opts={}){
+  const el = document.getElementById(id); if(!el) return;
+  const n = opts.n || N;
+  const max = Math.max(...rows.map(r=>r[1]), 1);
+  el.innerHTML = rows.map(([lab, v]) => {
+    const hi = opts.hi && opts.hi.includes(lab) ? " hi" : "";
+    const w = (v / max * 100).toFixed(1);
+    return `<div class="row"><div class="lab">${lab}</div><div class="track"><div class="bwrap"><div class="bar${hi}" style="width:${w}%"></div></div><span class="val">${v} (${pct(v,n)})</span></div></div>`;
+  }).join("");
+}
+chart("c-grade", D.grade, {hi:["12th grade"]});
+chart("c-area", D.area);
+chart("c-brushTimes", D.brushTimes, {hi:["Twice"]});
+chart("c-bedtime", D.bedtime);
+chart("c-duration", D.duration, {hi:["Under 1 min"]});
+chart("c-fluoride", D.fluoride, {hi:["Not sure"]});
+chart("c-floss", D.floss);
+chart("c-drinks", D.drinks);
+chart("c-sweets", D.sweets);
+chart("c-afterBrush", D.afterBrush);
+chart("c-visitWhen", D.visitWhen, {hi:["Only when something hurts"]});
+chart("c-problems", D.problems);
+chart("c-fear", D.fear);
+chart("c-reasons", [...D.reasons].sort((a,b)=>b[1]-a[1]), {hi:["My teeth don't hurt, so no need"]});
+chart("c-know", D.know);
+chart("c-learned", D.learned);
+chart("c-formats", D.formats, {hi:["Animated videos"]});
+chart("c-course", D.course);
+chart("c-tool", D.tool);
+chart("c-topics", D.topics, {hi:["How to brush properly"]});
+chart("c-open", D.open, {n:D.openN, hi:["Animation"]});
+
+const X = D.X;
+document.getElementById("f-n").textContent = N;
+document.getElementById("f-med").textContent = Math.floor(X.medianSec/60) + ":" + String(X.medianSec%60).padStart(2,"0");
+document.getElementById("f-prov").textContent = ((X.prov["广东省"]||0) + (X.prov["湖北省"]||0));
+document.getElementById("fastN").textContent = X.fast;
+
+const regPct = a => `${a[1]} of ${a[0]} (${pct(a[1],a[0])})`;
+document.getElementById("k1").innerHTML = `<span class="tag">Finding 01</span><b>Knowing isn't the same as doing.</b>${X.know2x} people (${pct(X.know2x)}) know that twice a day is the right amount, yet ${X.know2x_once} of them brush once a day or less. Knowledge does go along with better daily habits (ρ = ${S.spear_facts_h7[0].toFixed(2)}), but only moderately, and the habits that actually prevent decay (a full two minutes, fluoride, flossing) lag well behind what people know.`;
+document.getElementById("k2").innerHTML = `<span class="tag">Finding 02</span><b>People treat the dentist like an emergency room.</b>Only ${X.regular} people (${pct(X.regular)}) get regular check-ups. Even among the ${X.veryImp} who called check-ups “very important,” only ${X.veryImp_reg} (${pct(X.veryImp_reg,X.veryImp)}) actually go. The regression shows that health knowledge doesn't predict check-ups at all, but believing they matter does. So education should focus on <em>why</em> to go even when nothing hurts.`;
+document.getElementById("k3").innerHTML = `<span class="tag">Finding 03</span><b>Fear is real, but it isn't the main barrier.</b>${D.fear[0][1]+D.fear[1][1]} people are at least a little afraid of the dentist. Those who aren't afraid are more likely to get regular check-ups: ${regPct(X.notAfraid)}, compared with ${regPct(X.littleAfraid)} for “a little afraid” and ${regPct(X.veryAfraid)} for “very afraid.” But the chi-square test isn't significant (p = ${S.tests[0].p.toFixed(2)}), and fear stays non-significant in the regression. In this data, “nothing hurts” is a far bigger barrier than fear.`;
+document.getElementById("k4").innerHTML = `<span class="tag">Finding 04</span><b>People want short, visual lessons.</b>${D.formats[0][1]} people (${pct(D.formats[0][1])}) chose animated videos, and ${D.tool[0][1]+D.tool[1][1]} (${pct(D.tool[0][1]+D.tool[1][1])}) would or might use a simple website or AI tool. In the open-ended question, ${D.open[0][1]} of ${D.openN} responses mentioned animation.`;
+
+const GN={"Primary":"Elementary school","Junior high":"Middle school","Senior high":"High school","Other":"Other"};
+document.querySelector("#t-groups tbody").innerHTML = X.groups.map(g =>
+  `<tr><td>${GN[g.g]||g.g}</td><td class="n">${g.n}</td><td class="n">${pct(g.twice,g.n)}</td><td class="n">${pct(g.bed,g.n)}</td><td class="n">${pct(g.short,g.n)}</td><td class="n">${pct(g.eatAfter,g.n)}</td><td class="n">${pct(g.regular,g.n)}</td></tr>`).join("");
+
+// ---- deeper analysis ----
+(function(){
+  const $=id=>document.getElementById(id);
+  $("c-ci").innerHTML = S.ci.map(([lab,k,p,lo,hi])=>`<div class="row"><div class="lab">${lab}</div><div class="rng"><div class="axis"></div><div class="seg" style="left:${lo}%;width:${hi-lo}%"></div><div class="dot" style="left:${p}%"></div><span class="num">${Math.round(p)}%</span></div></div>`).join("")
+    + `<div class="row"><div></div><div class="scale"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div>`;
+  const cols=(id,vals,labels,fmt,hiIdx,sub)=>{
+    const max=Math.max(...vals.map(v=>v??0));
+    $(id).innerHTML=vals.map((v,i)=>`<div class="c"><span class="v">${v==null?"–":fmt(v)}</span><div class="b${i===hiIdx?" hi":""}" style="height:${(v??0)/max*85}%"></div></div>`).join("");
+    $(id).insertAdjacentHTML("afterend",`<div class="colx">${labels.map((l,i)=>`<span>${l}${sub?`<br>n=${sub[i]}`:""}</span>`).join("")}</div>`);
+  };
+  const hd=S.habitDist; cols("c-hist",hd,hd.map((_,i)=>i),v=>v,hd.indexOf(Math.max(...hd)));
+  cols("c-kh",S.hsByKf.map(r=>r[2]),S.hsByKf.map(r=>r[0]),v=>v.toFixed(1),null,S.hsByKf.map(r=>r[1]));
+  $("hsMean").textContent=S.hsMean; $("hsSD").textContent=S.hsSD; $("h8").textContent=hd[8]; $("alphaH").textContent=S.alphaH.toFixed(2);
+  $("rho").textContent=S.spear_facts_h7[0].toFixed(2);
+  const g2=(id,cap,t,rl,cl,hr,hc)=>{ $(id).innerHTML=`<caption>${cap}</caption><thead><tr><th></th><th>${cl[0]}</th><th>${cl[1]}</th></tr></thead><tbody>`+
+    t.map((r,i)=>`<tr><td>${rl[i]}</td>${r.map((v,j)=>`<td class="n${i===hr&&j===hc?" hl":""}">${v}</td>`).join("")}</tr>`).join("")+"</tbody>"; };
+  g2("g-checkup","Says check-ups are very important × goes regularly",S.gap.checkup,["No","Yes"],["Not regular","Regular"],1,0);
+  g2("g-twice","Knows twice a day is ideal × brushes 2+ times",S.gap.twice,["No","Yes"],["Under 2","2 or more"],1,0);
+  $("gapN").textContent=S.gap.checkup[1][0]; $("vi").textContent=S.gap.checkup[1][0]+S.gap.checkup[1][1];
+  const alpha=0.05/S.tests.length;
+  const fp=p=>p<0.001?"&lt; 0.001":p.toFixed(3);
+  document.querySelector("#t-tests tbody").innerHTML=S.tests.map(r=>`<tr><td>${r.name}</td><td class="n">${r.chi2.toFixed(2)}</td><td class="n">${r.df}</td><td class="n">${fp(r.p)}</td><td class="n">${r.V.toFixed(2)}</td><td>${r.p<alpha?'<span class="sig yes">Significant</span>':'<span class="sig">Not significant</span>'}</td></tr>`).join("");
+  $("kw").textContent=S.kw[1].toFixed(2);
+  document.querySelector("#t-logit tbody").innerHTML=S.logit.map(([n,or,lo,hi,p])=>`<tr><td>${n}</td><td class="n">${or.toFixed(2)}</td><td class="n">${lo.toFixed(2)} – ${hi.toFixed(2)}</td><td class="n">${fp(p)}</td></tr>`).join("");
+  $("ln").textContent=S.logitN; $("lev").textContent=S.logitEvents; $("lr").textContent=S.LR[0].toFixed(1); $("r2").textContent=S.pseudoR2.toFixed(2);
+  $("orv").textContent=Math.round(S.logit[1][1]);
+})();
+</script>
+
+</body>
+</html>
